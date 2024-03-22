@@ -11,27 +11,29 @@ datasource db {
 }
 
 model Users {
-  userId    Int        @id @default(autoincrement()) @map("userId")
-  email     String     @unique @map("email")
-  password  String     @map("password")
-  isAdmin   Boolean    @default(false) @map("isAdmin")
-  createdAt DateTime   @default(now()) @map("createdAt")
-  updatedAt DateTime   @updatedAt @map("updatedAt")
+  userId            Int        @id @default(autoincrement()) @map("userId")
+  email             String     @unique @map("email")
+  password          String     @map("password")
+  isAdmin           Boolean    @default(false)
+  verificationCode  String?    // 추가된 verificationCode 필드
 
-  documents Documents[] 
+  createdAt         DateTime   @default(now()) @map("createdAt")
+  updatedAt         DateTime   @updatedAt @map("updatedAt")
+
+  documents         Documents[] 
   @@map("Users")
 }
 
 model Documents {
-  postId    Int        @id @default(autoincrement()) @map("postId")
-  userId    Int        @map("userId")
-  title     String     @map("title")
-  content   String     @db.Text @map("content")
-  status    Status     @default(APPLY) @map("status")
-  createdAt DateTime   @default(now()) @map("createdAt")
-  updatedAt DateTime   @updatedAt @map("updatedAt")
+  postId            Int        @id @default(autoincrement()) @map("postId")
+  userId            Int        @map("userId")
+  title             String     @map("title")
+  content           String     @db.Text @map("content")
+  status            Status     @default(APPLY) @map("status")
+  createdAt         DateTime   @default(now()) @map("createdAt")
+  updatedAt         DateTime   @updatedAt @map("updatedAt")
 
-  user      Users      @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  user              Users      @relation(fields: [userId], references: [userId], onDelete: Cascade)
   @@map("Documents")
 }
 
